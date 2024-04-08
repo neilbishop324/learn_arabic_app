@@ -5,6 +5,7 @@ import 'package:learn_arabic_app/data/model/textword.dart';
 import 'package:learn_arabic_app/logic/text_words/bloc/text_words_bloc.dart';
 import 'package:learn_arabic_app/logic/text_words/cubit/text_words_index_cubit.dart';
 import 'package:learn_arabic_app/presentation/screens/error/components/error_component.dart';
+import 'package:learn_arabic_app/presentation/screens/text_words/components/quiz_dialog.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import 'components/text_word_card.dart';
@@ -16,6 +17,12 @@ class TextWordsScreen extends StatefulWidget {
 
   @override
   State<TextWordsScreen> createState() => _TextWordsScreenState();
+}
+
+class TextWordsScreenArgs {
+  final bool hasPageSystem;
+
+  TextWordsScreenArgs(this.hasPageSystem);
 }
 
 class _TextWordsScreenState extends State<TextWordsScreen> {
@@ -39,36 +46,52 @@ class _TextWordsScreenState extends State<TextWordsScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<TextWordsIndexCubit, TextWordsIndexState>(
         builder: (cubitContext, cubitState) {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(
-            "3000 Words",
-            style: GoogleFonts.hindMadurai(fontWeight: FontWeight.w700),
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () => moveToAnotherPage(-100, cubitState),
-            ),
-            Text(
-              (cubitState.firstIndex ~/ 100 + 1).toString(),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
+      return BlocConsumer<TextWordsBloc, TextWordsState>(
+        listener: (blocContext, blocState) {},
+        builder: (blocContext, blocState) {
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              title: Text(
+                "3000 Words",
+                style: GoogleFonts.hindMadurai(fontWeight: FontWeight.w700),
               ),
+              actions: (ModalRoute.of(context)!.settings.arguments
+                          as TextWordsScreenArgs)
+                      .hasPageSystem
+                  ? [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back_ios),
+                        onPressed: () => moveToAnotherPage(-100, cubitState),
+                      ),
+                      Text(
+                        (cubitState.firstIndex ~/ 100 + 1).toString(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.arrow_forward_ios),
+                        onPressed: () => moveToAnotherPage(100, cubitState),
+                      ),
+                    ]
+                  : null,
             ),
-            IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
-              onPressed: () => moveToAnotherPage(100, cubitState),
+            body: content(blocContext, blocState),
+            floatingActionButton: FloatingActionButton.extended(
+              onPressed: () {
+                if (blocState is TextWordsLoaded) {
+                  Dialog quizDialog = QuizDialog(blocState.data);
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) => quizDialog);
+                }
+              },
+              label: const Text("Quiz"),
+              icon: const Icon(Icons.quiz),
             ),
-          ],
-        ),
-        body: BlocConsumer<TextWordsBloc, TextWordsState>(
-          listener: (blocContext, blocState) {},
-          builder: (blocContext, blocState) {
-            return content(blocContext, blocState);
-          },
-        ),
+          );
+        },
       );
     });
   }

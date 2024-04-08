@@ -9,3 +9,7 @@ class LoadTextWords extends TextWordsEvent {
 
   LoadTextWords(this.firstIndex, this.lastIndex);
 }
+
+class LoadLocalTextWords extends TextWordsEvent {
+  LoadLocalTextWords();
+}

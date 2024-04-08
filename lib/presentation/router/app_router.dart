@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learn_arabic_app/presentation/screens/card_words/card_words_screen.dart';
 import 'package:learn_arabic_app/presentation/screens/home/home_screen.dart';
+import 'package:learn_arabic_app/presentation/screens/quiz/quiz_screen.dart';
 import 'package:learn_arabic_app/presentation/screens/text_words/text_words_screen.dart';
 
 class AppRouter {
@@ -15,7 +16,15 @@ class AppRouter {
           builder: (_) => const CardWordsScreen(),
         );
       case TextWordsScreen.routeName:
-        return MaterialPageRoute(builder: (_) => const TextWordsScreen());
+        return MaterialPageRoute(
+          settings: routeSettings,
+          builder: (_) => const TextWordsScreen(),
+        );
+      case QuizScreen.routeName:
+        return MaterialPageRoute(
+          settings: routeSettings,
+          builder: (_) => const QuizScreen(),
+        );
       default:
         return MaterialPageRoute(builder: (_) => const SizedBox());
     }

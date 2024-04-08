@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:learn_arabic_app/presentation/utils/widget_functions.dart';
+import 'package:learn_arabic_app/utils/constants.dart';
 import 'package:learn_arabic_app/utils/ui.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:translator/translator.dart';
@@ -11,8 +13,6 @@ class TranslatePage extends StatefulWidget {
 }
 
 class _TranslatePageState extends State<TranslatePage> {
-  final List<String> languages = ["Arabic", "English", "Turkish"];
-
   int firstLanguage = 0;
   int secondLanguage = 1;
   int thirdLanguage = 2;
@@ -64,28 +64,6 @@ class _TranslatePageState extends State<TranslatePage> {
     });
   }
 
-  Future<int?> _showPopupMenu(GlobalKey key) async {
-    RenderBox box = key.currentContext?.findRenderObject() as RenderBox;
-    Offset position = box.localToGlobal(Offset.zero);
-    final screenSize = MediaQuery.of(context).size;
-    return await showMenu(
-      context: context,
-      position: RelativeRect.fromLTRB(
-        position.dx,
-        position.dy + 50,
-        screenSize.width - position.dx,
-        screenSize.height - position.dy,
-      ),
-      items: languages.map((e) {
-        return PopupMenuItem(
-          value: languages.indexOf(e),
-          child: Text(e),
-        );
-      }).toList(),
-      elevation: 8.0,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
@@ -123,7 +101,8 @@ class _TranslatePageState extends State<TranslatePage> {
               InkWell(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 onTap: () async {
-                  int? newLanguage = await _showPopupMenu(thirdLanguageKey);
+                  int? newLanguage = await showPopupMenu(
+                      context, thirdLanguageKey, languages, 0, 50);
                   if (newLanguage != null) {
                     changeThirdLanguage(newLanguage);
                   }
@@ -176,7 +155,8 @@ class _TranslatePageState extends State<TranslatePage> {
               InkWell(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 onTap: () async {
-                  int? newLanguage = await _showPopupMenu(secondLanguageKey);
+                  int? newLanguage = await showPopupMenu(
+                      context, secondLanguageKey, languages, 0, 50);
                   if (newLanguage != null) {
                     changeSecondLanguage(newLanguage);
                   }
@@ -230,7 +210,8 @@ class _TranslatePageState extends State<TranslatePage> {
               InkWell(
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 onTap: () async {
-                  int? newLanguage = await _showPopupMenu(firstLanguageKey);
+                  int? newLanguage = await showPopupMenu(
+                      context, firstLanguageKey, languages, 0, 50);
                   if (newLanguage != null) {
                     changeFirstLanguage(newLanguage);
                   }

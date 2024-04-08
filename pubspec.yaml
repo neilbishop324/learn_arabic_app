@@ -42,7 +42,9 @@ dependencies:
   supabase_flutter: ^2.4.0
   flutter_dotenv: ^5.1.0
   flutter_staggered_grid_view: ^0.7.0
+  shared_preferences: ^2.2.2
   floor: ^1.4.2
+  sqflite: ^2.3.3
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +56,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  floor_generator: ^1.4.2
+  build_runner: ^2.4.9
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

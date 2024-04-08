@@ -22,5 +22,17 @@ class TextWordsBloc extends Bloc<TextWordsEvent, TextWordsState> {
         emit(TextWordsLoaded(list));
       }
     });
+    on<LoadLocalTextWords>((event, emit) async {
+      List<TextWord>? list;
+      emit(TextWordsLoading());
+
+      list = await repo.fetchLocalTextWords();
+
+      if (list == null) {
+        emit(TextWordsError("Words were not found!"));
+      } else {
+        emit(TextWordsLoaded(list));
+      }
+    });
   }
 }

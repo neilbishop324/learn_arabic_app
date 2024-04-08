@@ -56,12 +56,17 @@ class CollectionCard extends StatelessWidget {
     switch (collection.collectionName) {
       case wordsCollection:
         BlocProvider.of<TextWordsBloc>(context).add(LoadTextWords(0, 99));
-        Navigator.pushNamed(context, TextWordsScreen.routeName);
+        Navigator.pushNamed(context, TextWordsScreen.routeName,
+            arguments: TextWordsScreenArgs(true));
         break;
       case wordsWithPicsCollection:
         Navigator.pushNamed(context, CardWordsScreen.routeName,
             arguments: CardWordsScreenArgs(collection.name));
         break;
+      case savedWordsCollection:
+        BlocProvider.of<TextWordsBloc>(context).add(LoadLocalTextWords());
+        Navigator.pushNamed(context, TextWordsScreen.routeName,
+            arguments: TextWordsScreenArgs(false));
     }
   }
 }
