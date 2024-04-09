@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'text_word_db.dart';
+part of 'floor_database.dart';
 
 // **************************************************************************
 // FloorGenerator
@@ -63,6 +63,8 @@ class _$AppDatabase extends AppDatabase {
 
   TextWordDao? _textWordDaoInstance;
 
+  CardWordDao? _cardWordDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
@@ -86,6 +88,8 @@ class _$AppDatabase extends AppDatabase {
       onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `TextWord` (`id` TEXT NOT NULL, `ar` TEXT NOT NULL, `en` TEXT NOT NULL, `tr` TEXT NOT NULL, `index` INTEGER NOT NULL, `level` TEXT NOT NULL, `pos` TEXT NOT NULL, `createdAt` TEXT NOT NULL, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `CardWord` (`id` TEXT NOT NULL, `ar` TEXT NOT NULL, `en` TEXT NOT NULL, `tr` TEXT NOT NULL, `image` TEXT NOT NULL, `audio` TEXT NOT NULL, `index` INTEGER NOT NULL, `transliteration` TEXT NOT NULL, `category` TEXT NOT NULL, `createdAt` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -96,6 +100,11 @@ class _$AppDatabase extends AppDatabase {
   @override
   TextWordDao get textWordDao {
     return _textWordDaoInstance ??= _$TextWordDao(database, changeListener);
+  }
+
+  @override
+  CardWordDao get cardWordDao {
+    return _cardWordDaoInstance ??= _$CardWordDao(database, changeListener);
   }
 }
 
@@ -149,5 +158,62 @@ class _$TextWordDao extends TextWordDao {
   @override
   Future<void> insertTextWord(TextWord textWord) async {
     await _textWordInsertionAdapter.insert(textWord, OnConflictStrategy.abort);
+  }
+}
+
+class _$CardWordDao extends CardWordDao {
+  _$CardWordDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _cardWordInsertionAdapter = InsertionAdapter(
+            database,
+            'CardWord',
+            (CardWord item) => <String, Object?>{
+                  'id': item.id,
+                  'ar': item.ar,
+                  'en': item.en,
+                  'tr': item.tr,
+                  'image': item.image,
+                  'audio': item.audio,
+                  'index': item.index,
+                  'transliteration': item.transliteration,
+                  'category': item.category,
+                  'createdAt': item.createdAt
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<CardWord> _cardWordInsertionAdapter;
+
+  @override
+  Future<List<CardWord>> findAllCardWords() async {
+    return _queryAdapter.queryList('SELECT * FROM CardWord',
+        mapper: (Map<String, Object?> row) => CardWord(
+            id: row['id'] as String,
+            ar: row['ar'] as String,
+            en: row['en'] as String,
+            tr: row['tr'] as String,
+            image: row['image'] as String,
+            audio: row['audio'] as String,
+            index: row['index'] as int,
+            transliteration: row['transliteration'] as String,
+            category: row['category'] as String,
+            createdAt: row['createdAt'] as String));
+  }
+
+  @override
+  Future<void> deleteById(String id) async {
+    await _queryAdapter
+        .queryNoReturn('DELETE FROM CardWord WHERE id=?1', arguments: [id]);
+  }
+
+  @override
+  Future<void> insertCardWord(CardWord cardWord) async {
+    await _cardWordInsertionAdapter.insert(cardWord, OnConflictStrategy.abort);
   }
 }

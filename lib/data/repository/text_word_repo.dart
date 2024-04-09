@@ -1,5 +1,5 @@
 import 'package:learn_arabic_app/data/local_database/dao/text_word_dao.dart';
-import 'package:learn_arabic_app/data/local_database/database/text_word_db.dart';
+import 'package:learn_arabic_app/data/local_database/database/floor_database.dart';
 import 'package:learn_arabic_app/data/model/textword.dart';
 import 'package:learn_arabic_app/utils/constants.dart';
 import 'package:nb_utils/nb_utils.dart';

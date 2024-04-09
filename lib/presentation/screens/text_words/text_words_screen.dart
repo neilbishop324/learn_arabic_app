@@ -98,6 +98,14 @@ class _TextWordsScreenState extends State<TextWordsScreen> {
 
   Widget content(BuildContext context, TextWordsState state) {
     if (state is TextWordsLoaded) {
+      if (state.data.isEmpty) {
+        return const Center(
+          child: Text(
+            "No words here",
+            style: TextStyle(fontSize: 18),
+          ),
+        );
+      }
       return buildLoadedlayout(state.data);
     } else if (state is TextWordsLoading) {
       return const Center(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:learn_arabic_app/data/model/collection.dart';
+import 'package:learn_arabic_app/logic/card_words/bloc/card_words_bloc.dart';
 import 'package:learn_arabic_app/logic/text_words/bloc/text_words_bloc.dart';
 import 'package:learn_arabic_app/presentation/screens/card_words/card_words_screen.dart';
 import 'package:learn_arabic_app/presentation/screens/text_words/text_words_screen.dart';
@@ -60,6 +61,8 @@ class CollectionCard extends StatelessWidget {
             arguments: TextWordsScreenArgs(true));
         break;
       case wordsWithPicsCollection:
+        BlocProvider.of<CardWordsBloc>(context)
+            .add(LoadCardWords(collection.name));
         Navigator.pushNamed(context, CardWordsScreen.routeName,
             arguments: CardWordsScreenArgs(collection.name));
         break;
@@ -67,6 +70,10 @@ class CollectionCard extends StatelessWidget {
         BlocProvider.of<TextWordsBloc>(context).add(LoadLocalTextWords());
         Navigator.pushNamed(context, TextWordsScreen.routeName,
             arguments: TextWordsScreenArgs(false));
+      case savedWordsWithPicsCollection:
+        BlocProvider.of<CardWordsBloc>(context).add(LoadLocalCardWords());
+        Navigator.pushNamed(context, CardWordsScreen.routeName,
+            arguments: CardWordsScreenArgs("Your Card Collection"));
     }
   }
 }

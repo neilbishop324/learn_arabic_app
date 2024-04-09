@@ -1,7 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:floor/floor.dart';
+
+@entity
 class CardWord {
+  @primaryKey
   final String id;
   final String ar;
   final String en;
@@ -77,7 +81,7 @@ class CardWord {
       index: map['index'] as int,
       transliteration: map['transliteration'] as String,
       category: map['category'] as String,
-      createdAt: map['createdAt'] as String,
+      createdAt: map['created_at'] as String,
     );
   }
 

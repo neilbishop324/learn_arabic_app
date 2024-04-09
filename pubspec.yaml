@@ -45,6 +45,8 @@ dependencies:
   shared_preferences: ^2.2.2
   floor: ^1.4.2
   sqflite: ^2.3.3
+  flutter_flip_card: ^0.0.5
+  just_audio: ^0.9.37
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:learn_arabic_app/data/repository/card_word_repo.dart';
 import 'package:learn_arabic_app/data/repository/collection_repo.dart';
 import 'package:learn_arabic_app/data/repository/text_word_repo.dart';
+import 'package:learn_arabic_app/logic/card_words/bloc/card_words_bloc.dart';
 import 'package:learn_arabic_app/logic/collections/bloc/collections_bloc.dart';
 import 'package:learn_arabic_app/logic/quiz/bloc/quiz_bloc.dart';
 import 'package:learn_arabic_app/logic/text_words/bloc/text_words_bloc.dart';
@@ -35,6 +37,8 @@ void main() async {
       BlocProvider<TextWordsQuizCubit>(
           create: (context) => TextWordsQuizCubit()),
       BlocProvider<QuizBloc>(create: (context) => QuizBloc()),
+      BlocProvider<CardWordsBloc>(
+          create: (context) => CardWordsBloc(CardWordRepo())),
     ], child: MyApp()),
   );
 }
